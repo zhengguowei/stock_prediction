@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>{{stock_id}}预测结果</title>
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+    <!-- 移动设备自适应 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="{% static 'blog/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'blog/bootstrap/css/theme.scss.css' %}" rel="stylesheet">
+    <link href="{% static 'blog/bootstrap/css/timber.scss.css' %}" rel="stylesheet">
+
+   <link rel="stylesheet" type="text/css" href="{% static 'datetimepicker/jquery.datetimepicker.css' %}"/>
+</head>
+<body>
+    <div class="shopify-section">
+        <div class="featured-blog">
+            <div class="wrapper">
+                <div class="section-header text-center">
+                    <h2 class="h1 section-header__title">股票分析</h2>
+                </div>
+                <div class="grid-uniform">
+                    <div class="grid__item small--one-whole medium--one-half large--one-third">
+                        <div class="featured-blog__post">
+                            <div class="featured-blog__meta">
+                                <div class="featured-blog__date">
+                                    <time class="date"><b>股票代码:{{stock_id}}</b></time>
+                                </div>
+                                <br/>
+                                 <div class="featured-blog__date">
+                                <time class="date"><b>公司名称:{{company_name}}</b></time>
+                                 </div>
+                            </div>
+                            <h2 class="h3"><b>结果对比</b></h2>
+                              <div class="rte">
+                                <span><b>上个收盘价:{{last_price}}</b></span>
+                            </div>
+                            <div class="rte">
+                                {% if  prediction_prices.bp_price > last_price %}
+                                <span><b>融合网络预测结果:<font color="red">{{prediction_prices.bp_price}}</font></b></span>
+                                {% else %}
+                                 <span><b>融合网络预测结果:<font color="green">{{prediction_prices.bp_price}}</font></b></span>
+                                {% endif%}
+                            </div>
+                            <div class="rte">
+                                {% if  prediction_prices.lstm_price > last_price %}
+                                <span><b>LSTM网络预测结果:<font color="red">{{prediction_prices.lstm_price}}</font></b></span>
+                                 {% else %}
+                                <span><b>LSTM网络预测结果:<font color="green">{{prediction_prices.lstm_price}}</font></b></span>
+                                {% endif%}
+                            </div>
+                            <!--<div class="rte">-->
+                                <!--{% if  fusion_benifit > 0 %}-->
+                                <!--<span><b>融合网络一年收益:<font color="red">{{fusion_benifit}}</font></b></span>-->
+                                 <!--{% else %}-->
+                                <!--<span><b>融合网络一年收益:<font color="green">{{fusion_benifit}}</font></b></span>-->
+                                <!--{% endif%}-->
+                            <!--</div>-->
+                            <!--<div class="rte">-->
+                                <!--{% if  fusion_benifit > 0 %}-->
+                                <!--<span><b>LSTM网络一年收益:<font color="red">{{lstm_benifit}}</font></b></span>-->
+                                 <!--{% else %}-->
+                                <!--<span><b>LSTM网络一年收益:<font color="green">{{lstm_benifit}}</font></b></span>-->
+                                <!--{% endif%}-->
+                            <!--</div>-->
+                            <h3 class="h3">近5日预测</h3><br/>
+                            <table border="1">
+                                <tr>
+                                  <td>日期</td>
+                                    <td>真实价格</td>
+                                  <td>fu预测</td>
+                                  <td>ls预测</td>
+                                    <td>fu误差</td>
+                                    <td>ls误差</td>
+                                </tr>
+                            {% for error  in five %}
+                                <tr>
+                                    <td>{{error.data}}</td>
+                                  <td>{{error.true_date}}</td>
+                                  <td>{{error.bp_predict}}</td>
+                                  <td>{{error.lstm_predict}}</td>
+                                    <td>{{error.bp_error}}</td>
+                                    <td> {{error.lstm_error}}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                    <div class="grid__item small--one-whole medium--one-half large--one-third">
+                        <div class="featured-blog__post">
+                            <div class="featured-blog__meta">
+                                <br>
+                                <br>
+                            </div>
+                            <h2 class="h3">K线走势图</h2>
+                            <div class="rte">
+                                <img src="{% static 'blog/bootstrap/img/stock.gif' %}">
+                            </div>
+                        </div>
+                        <!--<div class="featured-blog__post">-->
+                            <!--<div class="rte">-->
+                                <!--<center><b>融合神经网络一年收益：{{fusion_benifit}}</b></center>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                                <!--<div class="featured-blog__post">-->
+                            <!--<div class="rte">-->
+                                <!--<center><b>LSTM网络一年收益：{{lstm_benifit}}</b></center>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    </div>
+                    <div class="grid__item small--one-whole medium--one-half large--one-third">
+                        <div class="featured-blog__post">
+
+                            <h2 class="h3">相关新闻</h2>
+                            {% for new  in news%}
+                            <div class="rte">
+                                <ul>
+                                    <li>
+                                        <a href="{{new.url}}">
+                                            {{new.title}}
+                                        </a>
+                                        &nbsp&nbsp&nbsp&nbsp
+                                        {{new.tentency}}
+                                    </li>
+                                </ul>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{% static 'blog/bootstrap/js/jquery.min.js' %}"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static 'blog/bootstrap/js/bootstrap.min.js' %}"></script>
+
+  <!--<script src='js/jquery.js'></script>-->
+
+ <script src=   "{% static 'datetimepicker/jquery.js' %}"></script>
+<script src=   "{% static 'datetimepicker/jquery.datetimepicker.full.js' %}"></script>
+<script>
+$.datetimepicker.setLocale('zh');
+    $('#start_time').datetimepicker({
+    value:'15/03/2015',
+	lang:'ch',
+	timepicker:false,
+	format:'d/m/Y',
+	formatDate:'Y/m/d',
+});
+
+$.datetimepicker.setLocale('zh');
+    $('#end_time').datetimepicker({
+    value:'15/04/2015',
+	lang:'ch',
+	timepicker:false,
+	format:'d/m/Y',
+	formatDate:'Y/m/d',
+});
+
+</script>
+</html>

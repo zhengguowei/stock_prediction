@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+    <!-- 移动设备自适应 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="{% static 'blog/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'blog/bootstrap/css/main.css' %}" rel="stylesheet" >
+    <script type="text/javascript" src="{% static 'blog/bootstrap/js/jquery.min.js' %}"></script>
+
+</head>
+<body>
+    <section class="container-fluid cover">
+        <div class="container">
+            <div class="jumbotron">
+                <h1>
+                    <span class="line-break">
+                        股票交易分析系统平台
+                    </span>
+                </h1>
+            </div>
+            <div class="text-center">
+                <form id="info" action="{% url 'blog:get_stock_id' %}" class="form-inline"  method="post" >
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input id="stock_id" type="text" name="stock_id" placeholder="股票代码/股票名称" class="form-control input-lg" required
+                         value>
+                    </div>
+                    <button  id="info_submit" class="btn btn-primary btn-lg">获取分析结果</button><br/>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{% static 'blog/bootstrap/js/jquery.min.js' %}"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static 'blog/bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

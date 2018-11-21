@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <br/><br/><br/><br/><br/>
+    <title>股票分析系统</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'datetimepicker/jquery.datetimepicker.css' %}"/>
+</head>
+<body>
+<div class="content-container" id="content-container">
+    <div >
+
+    </div>
+    <div>
+
+    </div>
+</div>
+<h1 align="center">股票分析系统</h1>
+<br/><br/>
+<form  action="{% url 'blog:get_stock_id' %}" align="center"  method="post">
+    {% csrf_token %}
+    <input type="text" placeholder="请输入代码" name="stock_id" width="30" height="20">
+	<input name="start_time" type="text" id="start_time"/>
+    <input name="end_time" type="text" id="end_time"/>
+     <input type="submit" name="确认">
+</form>
+
+
+</body>
+<script src=   "{% static 'datetimepicker/jquery.js' %}"></script>
+<script src=   "{% static 'datetimepicker/jquery.datetimepicker.full.js' %}"></script>
+<script>
+$.datetimepicker.setLocale('zh');
+    $('#start_time').datetimepicker({
+    value:'15/03/2015',
+	lang:'ch',
+	timepicker:false,
+	format:'d/m/Y',
+	formatDate:'Y/m/d',
+});
+
+$.datetimepicker.setLocale('zh');
+    $('#end_time').datetimepicker({
+    value:'15/04/2015',
+	lang:'ch',
+	timepicker:false,
+	format:'d/m/Y',
+	formatDate:'Y/m/d',
+});
+
+</script>
+</html>
